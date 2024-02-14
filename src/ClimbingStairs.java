@@ -43,11 +43,11 @@ public class ClimbingStairs {
 
     public List<List<Integer>> climbingStairsBacktrackingTopDown(int n) {
         List<List<Integer>> steps = new LinkedList<>();
-        climbingStairsBacktrackingTopDownHelper(0, n, new LinkedList<>(), steps);
+        climbingStairsTopDownHelper(0, n, new LinkedList<>(), steps);
         return steps;
     }
 
-    private void climbingStairsBacktrackingTopDownHelper(int stair, int n, LinkedList<Integer> currentStep, List<List<Integer>> steps) {
+    private void climbingStairsTopDownHelper(int stair, int n, LinkedList<Integer> currentStep, List<List<Integer>> steps) {
         if (stair == n) {
             steps.add(new LinkedList<>(currentStep));
             return;
@@ -56,11 +56,11 @@ public class ClimbingStairs {
             return;
         }
         currentStep.add(1);
-        climbingStairsBacktrackingTopDownHelper(stair + 1, n, currentStep, steps);
+        climbingStairsTopDownHelper(stair + 1, n, currentStep, steps);
         currentStep.removeLast();
 
         currentStep.add(2);
-        climbingStairsBacktrackingTopDownHelper(stair + 2, n, currentStep, steps);
+        climbingStairsTopDownHelper(stair + 2, n, currentStep, steps);
         currentStep.removeLast();
     }
 
@@ -89,11 +89,11 @@ public class ClimbingStairs {
 
     public int climbingStairsTopDown(int n) {
         AtomicInteger count = new AtomicInteger();
-        climbingStairsBacktrackingTopDownHelper(0, n, count);
+        climbingStairsTopDownHelper(0, n, count);
         return count.get();
     }
 
-    private void climbingStairsBacktrackingTopDownHelper(int stair, int n, AtomicInteger count) {
+    private void climbingStairsTopDownHelper(int stair, int n, AtomicInteger count) {
         if (stair == n) {
             count.set(count.get() + 1);
             return;
@@ -101,8 +101,23 @@ public class ClimbingStairs {
         if (stair > n) {
             return;
         }
-        climbingStairsBacktrackingTopDownHelper(stair + 1, n, count);
-        climbingStairsBacktrackingTopDownHelper(stair + 2, n, count);
+        climbingStairsTopDownHelper(stair + 1, n, count);
+        climbingStairsTopDownHelper(stair + 2, n, count);
+    }
+
+    public int climbingStairsTopDown_2(int n) {
+        return climbingStairsTopDownHelper_2(0, n);
+    }
+
+    private int climbingStairsTopDownHelper_2(int stair, int n) {
+        if (stair == n) {
+            return 1;
+        }
+        if (stair > n) {
+            return 0;
+        }
+        return climbingStairsTopDownHelper_2(stair + 1, n) +
+                climbingStairsTopDownHelper_2(stair + 2, n);
     }
 
     public int climbingStairsBottomUp(int n) {
