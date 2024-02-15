@@ -19,9 +19,17 @@ public class ClimbingStairs {
         + backtracking top down
         + backtracking bottom up
         + backtracking with memoization
-    - dynamic programing:
-        + d[n] = 0
-        + d[i] = d[i - 1] + d[i - 2]
+    - dynamic programing
+        + top down:
+            + dp[i]: number of ways to climb from 0 -> stair ith
+            + dp[0] = 1
+            + dp[1] = 1
+            + dp[i] = dp[i - 1] + dp[i - 2]
+        + bottom up:
+            + dp[i]: number of ways to climb from stair ith -> stair nth
+            + dp[n] = 1
+            + dp[n - 1] = 1
+            + dp[i] = dp[i + 1] + dp[i + 2]
 
     dry run:
 
@@ -41,13 +49,13 @@ public class ClimbingStairs {
         return b;
     }
 
-    public List<List<Integer>> climbingStairsBacktrackingTopDown(int n) {
+    public List<List<Integer>> backtrackingTopDown(int n) {
         List<List<Integer>> steps = new LinkedList<>();
-        climbingStairsTopDownHelper(0, n, new LinkedList<>(), steps);
+        backtrackingTopDownHelper(0, n, new LinkedList<>(), steps);
         return steps;
     }
 
-    private void climbingStairsTopDownHelper(int stair, int n, LinkedList<Integer> currentStep, List<List<Integer>> steps) {
+    private void backtrackingTopDownHelper(int stair, int n, LinkedList<Integer> currentStep, List<List<Integer>> steps) {
         if (stair == n) {
             steps.add(new LinkedList<>(currentStep));
             return;
@@ -56,21 +64,21 @@ public class ClimbingStairs {
             return;
         }
         currentStep.add(1);
-        climbingStairsTopDownHelper(stair + 1, n, currentStep, steps);
+        backtrackingTopDownHelper(stair + 1, n, currentStep, steps);
         currentStep.removeLast();
 
         currentStep.add(2);
-        climbingStairsTopDownHelper(stair + 2, n, currentStep, steps);
+        backtrackingTopDownHelper(stair + 2, n, currentStep, steps);
         currentStep.removeLast();
     }
 
-    public List<List<Integer>> climbingStairsBacktrackingBottomUp(int n) {
+    public List<List<Integer>> backtrackingBottomUp(int n) {
         List<List<Integer>> steps = new LinkedList<>();
-        climbingStairsBacktrackingBottomUpHelper(n, new LinkedList<>(), steps);
+        backtrackingBottomUpHelper(n, new LinkedList<>(), steps);
         return steps;
     }
 
-    private void climbingStairsBacktrackingBottomUpHelper(int n, LinkedList<Integer> currentStep, List<List<Integer>> steps) {
+    private void backtrackingBottomUpHelper(int n, LinkedList<Integer> currentStep, List<List<Integer>> steps) {
         if (n == 0) {
             steps.add(new LinkedList<>(currentStep));
             return;
@@ -79,21 +87,21 @@ public class ClimbingStairs {
             return;
         }
         currentStep.addFirst(1);
-        climbingStairsBacktrackingBottomUpHelper(n - 1, currentStep, steps);
+        backtrackingBottomUpHelper(n - 1, currentStep, steps);
         currentStep.removeFirst();
 
         currentStep.addFirst(2);
-        climbingStairsBacktrackingBottomUpHelper(n - 2, currentStep, steps);
+        backtrackingBottomUpHelper(n - 2, currentStep, steps);
         currentStep.removeFirst();
     }
 
-    public int climbingStairsTopDown(int n) {
+    public int topDown(int n) {
         AtomicInteger count = new AtomicInteger();
-        climbingStairsTopDownHelper(0, n, count);
+        topDownHelper(0, n, count);
         return count.get();
     }
 
-    private void climbingStairsTopDownHelper(int stair, int n, AtomicInteger count) {
+    private void topDownHelper(int stair, int n, AtomicInteger count) {
         if (stair == n) {
             count.set(count.get() + 1);
             return;
@@ -101,50 +109,70 @@ public class ClimbingStairs {
         if (stair > n) {
             return;
         }
-        climbingStairsTopDownHelper(stair + 1, n, count);
-        climbingStairsTopDownHelper(stair + 2, n, count);
+        topDownHelper(stair + 1, n, count);
+        topDownHelper(stair + 2, n, count);
     }
 
-    public int climbingStairsTopDown_2(int n) {
-        return climbingStairsTopDownHelper_2(0, n);
+    public int topDown_2(int n) {
+        return topDownHelper_2(0, n);
     }
 
-    private int climbingStairsTopDownHelper_2(int stair, int n) {
+    private int topDownHelper_2(int stair, int n) {
         if (stair == n) {
             return 1;
         }
         if (stair > n) {
             return 0;
         }
-        return climbingStairsTopDownHelper_2(stair + 1, n) +
-                climbingStairsTopDownHelper_2(stair + 2, n);
+        return topDownHelper_2(stair + 1, n) +
+                topDownHelper_2(stair + 2, n);
     }
 
-    public int climbingStairsBottomUp(int n) {
+    public int bottomUp(int n) {
         if (n == 0 || n == 1) {
             return 1;
         }
-        return climbingStairsBottomUp(n - 1) + climbingStairsBottomUp(n - 2);
+        return bottomUp(n - 1) + bottomUp(n - 2);
     }
 
-    public int climbingStairsBottomUpWithMemoization(int n) {
-        return climbingStairsBottomUpWithMemoizationHelper(n, new int[n + 1]);
+    public int bottomUpWithMemoization(int n) {
+        return bottomUpWithMemoizationHelper(n, new int[n + 1]);
     }
 
-    public int climbingStairsBottomUpWithMemoizationHelper(int n, int[] mem) {
+    public int bottomUpWithMemoizationHelper(int n, int[] mem) {
         if (n == 0 || n == 1) {
             return 1;
         }
         if (mem[n] == 0) {
-            mem[n] = climbingStairsBottomUpWithMemoizationHelper(n - 1, mem) +
-                    climbingStairsBottomUpWithMemoizationHelper(n - 2, mem);
+            mem[n] = bottomUpWithMemoizationHelper(n - 1, mem) +
+                    bottomUpWithMemoizationHelper(n - 2, mem);
         }
         return mem[n];
     }
 
+    public int dynamicProgrammingTopDown(int n) {
+        int[] dp = new int[n + 1];
+        dp[0] = 1;
+        dp[1] = 1;
+        for (int i = 2; i <= n; i++) {
+            dp[i] = dp[i - 1] + dp[i - 2];
+        }
+        return dp[n];
+    }
+
+    public int dynamicProgrammingBottomUp(int n) {
+        int[] dp = new int[n + 1];
+        dp[n] = 1;
+        dp[n - 1] = 1;
+        for (int i = n - 2; i >= 0; i--) {
+            dp[i] = dp[i + 1] + dp[i + 2];
+        }
+        return dp[0];
+    }
+
     public static void main(String[] args) {
         System.out.println(
-                new ClimbingStairs().climbingStairsBottomUpWithMemoization(3)
+                new ClimbingStairs().dynamicProgrammingBottomUp(3)
         );
     }
 }
