@@ -19,24 +19,24 @@ public class LongestPalindromicSubstring {
     */
 
     public String getLongestPalindromicSubstring(String s) {
-        int[] bordersOfLongestSubstring = new int[2];
+        int[] boundOfLongestSubstring = new int[2];
         int longestLength = 1;
         for (int i = 0; i < s.length(); i++) {
-            int[] bordersOfSingleCenter = getLongestPalindromicSubstringHelper(s, i, i);
-            int lengthOfSingleCenter = bordersOfSingleCenter[1] - bordersOfSingleCenter[0] + 1;
+            int[] boundOfSingleCenter = getLongestPalindromicSubstringHelper(s, i, i);
+            int lengthOfSingleCenter = boundOfSingleCenter[1] - boundOfSingleCenter[0] + 1;
             if (lengthOfSingleCenter > longestLength) {
-                bordersOfLongestSubstring = bordersOfSingleCenter;
+                boundOfLongestSubstring = boundOfSingleCenter;
                 longestLength = lengthOfSingleCenter;
             }
 
-            int[] borderOfDoubleCenter = getLongestPalindromicSubstringHelper(s, i, i + 1);
-            int lengthOfDoubleCenter = borderOfDoubleCenter[1] - borderOfDoubleCenter[0] + 1;
+            int[] boundOfDoubleCenter = getLongestPalindromicSubstringHelper(s, i, i + 1);
+            int lengthOfDoubleCenter = boundOfDoubleCenter[1] - boundOfDoubleCenter[0] + 1;
             if (lengthOfDoubleCenter > longestLength) {
-                bordersOfLongestSubstring = borderOfDoubleCenter;
+                boundOfLongestSubstring = boundOfDoubleCenter;
                 longestLength = lengthOfDoubleCenter;
             }
         }
-        return s.substring(bordersOfLongestSubstring[0], bordersOfLongestSubstring[1] + 1);
+        return s.substring(boundOfLongestSubstring[0], boundOfLongestSubstring[1] + 1);
     }
 
     private int[] getLongestPalindromicSubstringHelper(String s, int leftCenter, int rightCenter) {
