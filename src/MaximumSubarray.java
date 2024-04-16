@@ -48,4 +48,15 @@ public class MaximumSubarray {
         }
         return maxSum;
     }
+
+    public int rewriteKadaneAlgorithm(int[] nums) {
+        int n = nums.length;
+        int currentSum = 0;
+        int maxSum = Integer.MIN_VALUE;
+        for (int num : nums) {
+            currentSum = Math.max(currentSum + num, num);
+            maxSum = Math.max(maxSum, currentSum);
+        }
+        return maxSum;
+    }
 }
