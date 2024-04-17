@@ -1,6 +1,7 @@
 public class GreatestCommonDivisorOfStrings {
     /*
     1071.
+
     */
     public int greatestCommonDivisorOfTwoNumbers(int num1, int num2) {
         if (num2 == 0) {
