@@ -1,4 +1,5 @@
 import java.util.Arrays;
+import java.util.Comparator;
 import java.util.PriorityQueue;
 
 public class MeetingRooms2 {
@@ -8,7 +9,7 @@ public class MeetingRooms2 {
     */
 
      public int minMeetingRooms(int[][] intervals) {
-         Arrays.sort(intervals, (a, b) -> a[0] - b[0]);
+         Arrays.sort(intervals, Comparator.comparingInt(a -> a[0]));
 
          int n = intervals.length;
 
@@ -19,7 +20,6 @@ public class MeetingRooms2 {
                  minEndTimeHeap.poll();
              }
              minEndTimeHeap.add(interval);
-             System.out.println(minEndTimeHeap.size());
          }
 
          return minEndTimeHeap.size();
