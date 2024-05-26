@@ -28,4 +28,20 @@ public class JumpGame {
         }
         return safePos == 0;
     }
+
+    public boolean myCanJumpWithBfs(int[] nums) {
+        int n = nums.length;
+        int left = 0;
+        int right = 0;
+        while (right < n - 1) {
+            if (left > right) return false;
+            int farthest = right; // 3
+            for (int i = left; i <= right; i++) {
+                farthest = Math.max(farthest, i + nums[i]);
+            }
+            left = right + 1; // 4
+            right = farthest; // 3
+        }
+        return true;
+    }
 }
